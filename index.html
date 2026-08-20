@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WA Meet</title>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#111;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* MOBILE FRAME */
+
+/* MOBILE FRAME */
+
+.mobile{
+    width:100%;
+    max-width:430px;
+    height:100vh;
+    background:#fff;
+    overflow:hidden;
+    position:relative;
+    margin:auto;
+}
+
+/* Desktop Chrome Mobile Look */
+
+@media(min-width:768px){
+
+    body{
+        background:#0b141a;
+    }
+
+    .mobile{
+        height:95vh;
+        max-height:850px;
+        border-radius:28px;
+        border:8px solid #222;
+        box-shadow:0 20px 60px rgba(0,0,0,.55);
+    }
+
+}
+
+/* HEADER */
+
+.header{
+    background:linear-gradient(135deg,#075e54,#00a884);
+    color:#fff;
+    padding-top:16px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 16px;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:900;
+}
+
+.icons{
+    display:flex;
+    gap:18px;
+}
+
+.icons .material-icons{
+    font-size:24px;
+    cursor:pointer;
+}
+
+/* TABS */
+
+.tabs{
+    display:flex;
+    justify-content:space-around;
+    margin-top:18px;
+    color:#d7fcd4;
+    font-size:15px;
+    font-weight:600;
+}
+
+.tab{
+    width:33%;
+    text-align:center;
+    padding-bottom:14px;
+    position:relative;
+}
+
+.tab.active{
+    color:#fff;
+}
+
+.tab.active::after{
+    content:"";
+    position:absolute;
+    left:18%;
+    bottom:0;
+    width:64%;
+    height:3px;
+    background:#fff;
+    border-radius:20px;
+}
+
+/* CHAT LIST */
+
+.chat-list{
+    height:calc(100% - 125px);
+    overflow-y:auto;
+    background:#fff;
+}
+
+.chat{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:13px 14px;
+    cursor:pointer;
+    
+}
+
+.chat:hover{
+    background:#f5f5f5;
+}
+
+.avatar{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.content{
+    flex:1;
+    border-bottom:1px solid #f0f0f0;
+    padding-bottom:12px;
+}
+
+.top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+}
+
+.name{
+    font-size:18px;
+    font-weight:600;
+    color:#111;
+}
+
+.right-side{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:6px;
+}
+
+.time{
+    font-size:12px;
+    color:#00a884;
+    font-weight:600;
+}
+
+.msg-row{
+    margin-top:6px;
+}
+
+.msg{
+    color:#667781;
+    font-size:14px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:220px;
+}
+
+/* UNREAD */
+
+.unread{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#00a884;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* FLOAT BUTTON */
+
+.fab{
+    position:absolute;
+    right:18px;
+    bottom:24px;
+    width:58px;
+    height:58px;
+    border:none;
+    border-radius:18px;
+    background:#00a884;
+    color:#fff;
+    box-shadow:0 6px 20px rgba(0,0,0,.3);
+    cursor:pointer;
+}
+
+.fab .material-icons{
+    font-size:28px;
+}
+
+/* HOME LINE */
+
+.home-line{
+    position:absolute;
+    bottom:7px;
+    left:50%;
+    transform:translateX(-50%);
+    width:120px;
+    height:5px;
+    border-radius:20px;
+    background:#ddd;
+}
+
+/* SCROLL */
+
+.chat-list::-webkit-scrollbar{
+    width:4px;
+}
+
+.chat-list::-webkit-scrollbar-thumb{
+    background:#ccc;
+    border-radius:10px;
+}
+
+/* HOT MODAL */
+
+.hot-modal{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(6px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
+}
+
+.hot-box{
+    width:100%;
+    max-width:340px;
+    background:linear-gradient(180deg,#1b1b1b,#111);
+    border-radius:28px;
+    padding:24px 20px;
+    text-align:center;
+    position:relative;
+    
+    box-shadow:0 0 35px rgba(255,0,90,.35);
+}
+
+@keyframes popup{
+    from{
+        transform:scale(.8);
+        
+    }
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+.hot-img{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #ff005c;
+    box-shadow:0 0 25px rgba(255,0,90,.6);
+}
+
+.online-dot{
+    width:18px;
+    height:18px;
+    background:#00ff66;
+    border-radius:50%;
+    position:absolute;
+    top:100px;
+    right:115px;
+    border:3px solid #111;
+}
+
+.hot-name{
+    color:#fff;
+    margin-top:16px;
+    font-size:26px;
+    font-weight:800;
+}
+
+.hot-status{
+    color:#ff4d88;
+    margin-top:6px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.hot-desc{
+    color:#bbb;
+    font-size:13px;
+    margin-top:10px;
+    line-height:1.5;
+}
+
+.public-btn,
+.private-btn,
+.changing-btn,
+.close-btn{
+    width:100%;
+    border:none;
+    padding:14px;
+    border-radius:16px;
+    margin-top:14px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.public-btn{
+    background:linear-gradient(90deg,#00c853,#00e676);
+    color:#fff;
+}
+
+.private-btn{
+    background:linear-gradient(90deg,#ff005c,#ff4d88);
+    color:#fff;
+    box-shadow:0 0 18px rgba(255,0,90,.45);
+}
+
+.changing-btn{
+    background:linear-gradient(135deg,#FFD700,#FFC107,#FFB300,#FFE082);
+    color:#2b1b00;
+     box-shadow:0 0 18px rgba(255,0,90,.45);
+}
+
+.close-btn{
+    background:#2b2b2b;
+    color:#fff;
+}
+
+/* small inline helpers so the popup looks okay if style.css missing */
+    .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 9999; }
+    .popup-content { background: #fff; padding: 18px; border-radius: 8px; max-width: 360px; width: 95%; box-shadow: 0 8px 30px rgba(0,0,0,0.2); text-align: center; position: relative; }
+    .close-button { position: absolute; right: 10px; top: 8px; border: none; background: transparent; font-size: 20px; cursor: pointer; }
+    .popup-header { font-weight: 700; margin-bottom: 8px; font-size: 20px; }
+	
+	.popup-image {
+            width: 100%;
+            border: 1.5px solid black;
+            height: 250px;
+            display: block;
+			    margin-top: -10px;
+        }
+
+        .whatsapp-button {
+
+            display: block;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 12px 25px;
+            margin: 0 auto;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+            max-width: 250px;
+            
+        }
+
+        .whatsapp-button:hover {
+            background: linear-gradient(135deg, #128C7E, #075e54);
+            transform: scale(1.05);
+        }
+		.swal-top-layer {
+    z-index: 999999 !important;
+}
+
+.swal2-container {
+    z-index: 999999 !important;
+}
+
+</style>
+	<link rel="stylesheet" href="assets/css/style_bm.css">
+<style>
+.subtitle{font-size:11px;opacity:.85;margin-top:2px}.tab{cursor:pointer}
+.chat-view{max-height:90vh;overflow:auto}.top-close{position:absolute;right:12px;top:10px;width:auto!important;background:transparent!important;margin:0!important;padding:6px!important}
+.demo-messages{margin-top:14px;text-align:left;max-height:190px;overflow:auto}.demo-message{background:#263238;color:#fff;padding:9px 11px;border-radius:12px;margin:7px 0;font-size:13px}.demo-message.me{background:#075e54;margin-left:28px}
+.demo-input-row{display:flex;gap:7px;margin-top:12px}.demo-input{flex:1;border:1px solid #ccc;border-radius:20px;padding:10px 12px;outline:none}.send-btn{border:0;border-radius:20px;padding:0 16px;background:#00a884;color:#fff;font-weight:700}
+.call-row{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #eee;cursor:pointer}.call-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8f5e9;color:#008069;font-size:22px}.call-meta{flex:1}.call-name{font-weight:700;font-size:16px}.call-time{font-size:12px;color:#667781;margin-top:3px}
+</style>
+<style id="chat-popup-style">
+.chat-popup-box{
+  width:min(92vw,430px)!important;
+  background:linear-gradient(180deg,#171717,#080808)!important;
+  border-radius:28px!important;
+  padding:30px 22px 24px!important;
+  box-shadow:0 18px 60px rgba(0,0,0,.65)!important;
+  text-align:center!important;
+  position:relative;
+}
+.chat-popup-box .hot-img{
+  width:150px!important;height:150px!important;border-radius:50%!important;
+  object-fit:cover!important;border:7px solid #ff2b86!important;
+  box-shadow:0 0 24px rgba(255,43,134,.75)!important;
+}
+.chat-popup-box .hot-name{
+  font-size:34px!important;line-height:1.1!important;margin:18px 0 8px!important;
+  color:#fff!important;text-shadow:0 2px 8px rgba(255,255,255,.25);
+}
+.popup-online{
+  color:#ff2b86;font-size:18px;font-weight:800;margin-bottom:14px;
+}
+.popup-subtitle{color:#e8e8e8;font-size:16px;font-weight:700;margin-bottom:24px}
+.popup-choice{
+  display:block;width:100%;border:0;border-radius:30px;padding:17px 12px;
+  margin:12px 0;font-size:18px;font-weight:800;cursor:pointer;color:#fff;
+}
+.popup-choice.green{background:#00e63b;box-shadow:0 5px 20px rgba(0,230,59,.25)}
+.popup-choice.pink{background:#f32182;box-shadow:0 5px 20px rgba(243,33,130,.25)}
+.popup-choice.yellow{background:#ffd500;color:#8a5b00;box-shadow:0 5px 20px rgba(255,213,0,.25)}
+.popup-cancel{background:#171717;color:#fff;border:0;width:100%;padding:16px;border-radius:28px;font-size:17px;font-weight:700;margin-top:8px;cursor:pointer}
+</style>
+
+
+<style id="layout-fix">
+html,body{width:100%;min-height:100%;margin:0;overflow-x:hidden}
+.mobile{width:100%;max-width:430px;height:100vh;margin:0 auto;box-sizing:border-box;overflow:hidden;position:relative}
+.chat-list{width:100%;box-sizing:border-box}
+.chat{width:100%;box-sizing:border-box}
+.content{min-width:0}
+@media(max-width:767px){.mobile{max-width:none}}
+.icons .material-icons{display:flex;align-items:center;justify-content:center;width:28px;height:28px}
+.fab .material-icons{font-size:28px}
+</style>
+
+
+<style id="stability-and-rotation">
+.avatar,.hot-img,.chat,.chat-popup-box{animation:none!important;transition:none!important;visibility:visible!important}
+.avatar{display:block;flex:0 0 auto;background:#d9d9d9}
+.hot-img{display:block;background:#171717}
+.hot-modal{will-change:auto!important}
+.chat-list{overflow-y:auto;overflow-x:hidden}
+.chat{transform:none!important}
+</style>
+
+
+<style id="download-page-style">
+#downloadPage{
+  display:none;position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(180deg,#075e54 0,#00a884 28%,#f5f7f8 28%,#f5f7f8 100%);
+  overflow:auto;font-family:Arial,sans-serif;
+}
+.download-card{
+  width:min(92%,430px);margin:70px auto 30px;background:#fff;border-radius:26px;
+  padding:28px 22px 30px;box-shadow:0 12px 40px rgba(0,0,0,.20);text-align:center;
+}
+.download-profile{
+  width:130px;height:130px;border-radius:50%;object-fit:cover;
+  border:6px solid #ff2b86;box-shadow:0 0 22px rgba(255,43,134,.45);
+  background:#eee;
+}
+.download-title{font-size:29px;font-weight:800;margin:18px 0 8px;color:#111}
+.download-text{font-size:18px;line-height:1.5;color:#333;margin:12px 4px 24px}
+.download-text .green-word{color:#00a63c;font-weight:800}
+.download-text .pink-word{color:#f21b7a;font-weight:800}
+.download-btn{
+  display:block;width:100%;box-sizing:border-box;padding:17px 18px;border-radius:30px;
+  background:#00c853;color:#fff;text-decoration:none;font-size:20px;font-weight:800;
+  box-shadow:0 7px 20px rgba(0,200,83,.28);border:0;cursor:pointer;
+}
+.download-back{
+  margin-top:16px;background:none;border:0;color:#667781;font-size:15px;cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+<div class="mobile">
+
+    <div class="header">
+        <div class="top">
+            <div><div class="logo">WA Meet</div><div class="subtitle">Private conversations</div></div>
+            <div class="icons">
+                <span class="material-icons">videocam</span> 
+                <span class="material-icons">search</span>
+                <span class="material-icons">more_vert</span>
+            </div>
+
+        </div>
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+            <div class="tab active" data-tab="chats">Chats <span id="chatCount">10</span></div>
+
+
+            <div class="tab" data-tab="calls">Calls</div>
+
+        </div>
+
+    </div>
+<!-- LOCAL CHAT MODAL -->
+<div id="modal" class="hot-modal">
+  <div class="hot-box chat-popup-box">
+    <button class="close-btn top-close" onclick="closeModal()">✕</button>
+    <img id="modalImg" class="hot-img" src="uploads/chat.png" alt="Profile">
+    <h2 id="modalTitle" class="hot-name">Riya Mehta</h2>
+    <div class="popup-online">🔥 Online Now • Waiting For You</div>
+    <div class="popup-subtitle">Private video room available now 💋</div>
+    <button class="popup-choice green" onclick="demoChoice('chat')">🔒 Join Sex Chat Room ₹79</button>
+    <button class="popup-choice pink" onclick="demoChoice('video')">🔒 Join Video Call Room ₹99</button>
+    <button class="popup-choice yellow" onclick="demoChoice('vip')">🔥 Join VVIP Room ₹109</button>
+    <button class="popup-cancel" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+    <!-- CHAT LIST -->
+    <div class="chat-list" id="chatList"></div>
+    <div class="chat-list" id="callList" style="display:none;"></div>
+
+    <!-- FLOAT BUTTON -->
+    <button class="fab">
+        <span class="material-icons">chat</span>
+    </button>
+
+    <!-- HOME LINE -->
+    <div class="home-line"></div>
+
+</div>
+
+
+
+
+
+  
+<script>
+const chatPool=[
+{name:"Riya Mehta",msg:"Hey! How are you?",img:"uploads/profiles/1.webp"},
+{name:"Ananya Sharma",msg:"Are you free today?",img:"uploads/profiles/2.webp"},
+{name:"Priya Singh",msg:"Let's catch up later.",img:"uploads/profiles/3.webp"},
+{name:"Isha Verma",msg:"Thanks for your message 😊",img:"uploads/profiles/4.webp"},
+{name:"Sneha Kapoor",msg:"Good morning!",img:"uploads/profiles/5.webp"},
+{name:"Kritika Sharma",msg:"Talk to you soon.",img:"uploads/profiles/6.webp"},
+{name:"Neha Gupta",msg:"Hi, are you online?",img:"uploads/profiles/7.webp"},
+{name:"Pooja Malhotra",msg:"Send me a message 😊",img:"uploads/profiles/8.webp"},
+{name:"Simran Kaur",msg:"See you later!",img:"uploads/profiles/9.webp"},
+{name:"Meera Joshi",msg:"Hello 👋",img:"uploads/profiles/10.webp"},
+{name:"Tanya Kapoor",msg:"Hi there!",img:"uploads/profiles/1.webp"},
+{name:"Naina Verma",msg:"How's your day?",img:"uploads/profiles/2.webp"}
+];
+
+let poolIndex=0;
+let chats=chatPool.slice(0,10).map((c,i)=>({...c,unread:i%3===0?i+1:null,time:new Date(Date.now()-i*12*60000)}));
+
+const calls=[
+{name:"Ananya",type:"Incoming call",time:"Today, 10:42 am"},
+{name:"Priya",type:"Outgoing call",time:"Yesterday, 8:15 pm"},
+{name:"Sneha",type:"Missed call",time:"Yesterday, 6:30 pm"}];
+const modal=document.getElementById("modal"),modalImg=document.getElementById("modalImg"),modalTitle=document.getElementById("modalTitle"),modalMessages=document.getElementById("modalMessages"),chatList=document.getElementById("chatList"),callList=document.getElementById("callList");
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+function formatTime(d){let m=Math.floor((Date.now()-d)/60000);if(m<1)return"now";if(m<60)return m+" min ago";if(m<1440)return Math.floor(m/60)+" hr ago";return Math.floor(m/1440)+" d ago";}
+
+function rotateDemoChats(){
+  // Demo-only rotation: replace the oldest visible profile with another
+  // profile from the local pool, then re-render without animation.
+  poolIndex=(poolIndex+1)%chatPool.length;
+  const next=chatPool[poolIndex];
+  const oldest=chats.reduce((a,b)=>a.time<b.time?a:b);
+  oldest.name=next.name;
+  oldest.msg=next.msg;
+  oldest.img=next.img;
+  oldest.unread=1;
+  oldest.time=new Date();
+  renderChats();
+}
+
+function renderChats(){chats.sort((a,b)=>b.time-a.time);chatList.innerHTML="";chats.forEach(c=>{let d=document.createElement("div");d.className="chat";d.innerHTML=`<img src="${c.img}" class="avatar" onerror="this.onerror=null;this.src='uploads/chat.png'"><div class="content"><div class="top-row"><div class="name">${safe(c.name)}</div><div class="right-side"><div class="time">${formatTime(c.time)}</div>${c.unread?`<div class="unread">${c.unread}</div>`:""}</div></div><div class="msg-row"><div class="msg">${safe(c.msg)}</div></div></div>`;d.onclick=()=>openModal(c);chatList.appendChild(d)});document.getElementById("chatCount").textContent=chats.length;}
+function renderCalls(){callList.innerHTML="";calls.forEach(c=>{let d=document.createElement("div");d.className="call-row";d.innerHTML=`<div class="call-icon">☎</div><div class="call-meta"><div class="call-name">${safe(c.name)}</div><div class="call-time">${safe(c.type)} · ${safe(c.time)}</div></div>`;callList.appendChild(d);});}
+function openModal(c){
+  modalImg.src=c.img;
+  modalImg.onerror=()=>{modalImg.onerror=null;modalImg.src="uploads/chat.png";};
+  modalTitle.textContent=c.name;
+  modal.style.display="flex";
+}
+function demoChoice(type){
+  if(type==="video"){
+    openDownloadPage();
+    return;
+  }
+  openDownloadPage();
+}
+
+function openDownloadPage(){
+  const name=modalTitle.textContent||"Riya Mehta";
+  const profile=modalImg.src;
+  document.getElementById("downloadName").textContent=name;
+  document.getElementById("downloadNameInline").textContent=name;
+  const p=document.getElementById("downloadProfile");
+  p.src=profile;
+  p.onerror=()=>{p.onerror=null;p.src="uploads/chat.png";};
+  modal.style.display="none";
+  document.getElementById("downloadPage").style.display="block";
+}
+function closeDownloadPage(){
+  document.getElementById("downloadPage").style.display="none";
+}
+function handleDownload(e){
+  e.preventDefault();
+  // Download URL can be connected in the next step.
+  return false;
+}
+
+function closeModal(){modal.style.display="none";}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");let c=t.dataset.tab==="calls";chatList.style.display=c?"none":"block";callList.style.display=c?"block":"none";});
+renderChats();renderCalls();
+setInterval(rotateDemoChats,45000);
+</script>
+
+
+<div id="downloadPage">
+  <div class="download-card">
+    <img id="downloadProfile" class="download-profile" src="uploads/chat.png" alt="Profile">
+    <div id="downloadName" class="download-title">Riya Mehta</div>
+    <div class="download-text">
+      अगर आप <span class="pink-word" id="downloadNameInline">Riya Mehta</span>
+      के साथ <span class="green-word">Video Call</span> पर बात करना चाहते हैं,
+      तो नीचे दिया गया <span class="green-word">Application</span> डाउनलोड करें।
+    </div>
+    <a id="downloadButton" class="download-btn" href="#" onclick="return handleDownload(event)">
+      ⬇️ Download Application
+    </a>
+    <button class="download-back" onclick="closeDownloadPage()">← Back</button>
+  </div>
+</div>
+
+</body>
+</html>
